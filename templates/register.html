@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>register</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+	<h2>Sign Up</h2>
+	<form action="{{ url_for('register') }}" method="post">
+		{{ form.csrf_token }}
+		{{ form.hidden_tag() }}
+		<ul style="list-style-type: none;">
+			{% for error in form.username.errors %}
+
+			<div class="alert alert-danger col-4" role="alert">
+				<li>{{ error }}</li>
+			</div>
+
+			{% endfor %}
+		</ul>
+		<ul style="list-style-type: none;">
+			{% for error in form.password.errors %}
+			<div class="alert alert-danger col-4" role="alert">
+				<li>{{ error }}</li>
+			</div>
+			{% endfor %}
+		</ul>
+		<p>
+			{{ form.username.label }} <br>
+			{{ form.username(size=30) }}
+		</p>
+		<p>
+			{{ form.password.label }} <br>
+			{{ form.password(size=30) }}
+		</p>
+		{{ form.submit }}
+	</form>
+</div>
+
+
+{% endblock content %}
