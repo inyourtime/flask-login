@@ -8,7 +8,6 @@ flask = "*"
 flask-sqlalchemy = "*"
 python-dotenv = "*"
 psycopg2 = "*"
-flask-login = "*"
 flask-wtf = "*"
 werkzeug = "*"
 

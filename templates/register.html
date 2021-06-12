@@ -4,15 +4,35 @@
 register
 {% endblock title %}
 
+{% block style %}
+
+<style>
+
+	body {
+		background-color: aqua;
+	}
+	#form_register {
+		background-color: greenyellow;
+		width: 450px;
+		left: 50%;
+  	  	top: 50%;
+    	position: absolute;
+    	transform: translate(-50%, -50%);
+	}
+	
+</style>
+
+{% endblock style %}
+
 {% block content %}
 
 <div class="container">
-		<form action="{{ url_for('register') }}" method="post" style="max-width: 400px; margin: auto">
+		<form action="{{ url_for('register') }}" method="post" id="form_register">
 			{{ form.csrf_token }}
 			<!-- {{ form.hidden_tag() }} -->
-			<div class="border border-success p-4 mt-3">
+			<div class="border border-success border-3 p-4">
 				<div class="mb-3">
-					<h2>Sign Up</h2> <hr>
+					<h2>Register</h2> <hr>
 				</div>
 				
 				<div class="form-group w-100">
@@ -48,10 +68,10 @@ register
 						{% endfor %}
 					</div>
 				</div>
-				{{ form.submit(class="btn btn-primary col-12 mt-3") }}
+				{{ form.submit(class="btn btn-primary col-12 mb-3") }}
+				<small>Already have an account? <span><a href="{{ url_for('login') }}">Sign in</a></span></small>
 			</div>
 		</form>
-	
 </div>
 
 

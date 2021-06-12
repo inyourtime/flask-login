@@ -5,14 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, ValidationError, EqualTo
-from flask_login import (
-    LoginManager,
-    UserMixin,
-    login_user,
-    login_required,
-    logout_user,
-    current_user,
-)
 from werkzeug.security import generate_password_hash, check_password_hash
 
 load_dotenv()
@@ -61,7 +53,7 @@ class RegisterForm(FlaskForm):
             EqualTo('password', message='Password is not match')
         ]
     )
-    submit = SubmitField("Sign up")
+    submit = SubmitField("Register Now")
 
     def validate_username(self, username):
         existing_user_username = User.query.filter_by(username=username.data).first()
@@ -102,13 +94,13 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and check_password_hash(user.password, form.password.data):
-            session["user"] = user.username
+            session["user_id"] = user.id
             # flash("login success")
             return redirect(url_for('dashboard'))
         flash('Invalid login, Please try again', "invalid_login")
         return redirect(url_for('login'))
     
-    if "user" in session:
+    if "user_id" in session:
         return redirect(url_for('dashboard'))
     
     return render_template("login.html", form=form)
@@ -116,15 +108,16 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
-    if "user" in session:
-        username = session["user"]
-        return render_template('dashboard.html', username=username)
+    if "user_id" in session:
+        user_id = session["user_id"]
+        user = User.query.filter_by(id=user_id).first()
+        return render_template('dashboard.html', username=user.username)
     
     return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
-    session.pop("user", None)
+    session.pop("user_id", None)
     flash("Logout Successfully", "logout")
     return redirect(url_for('login'))
 

@@ -4,14 +4,33 @@
 login
 {% endblock title %}
 
+{% block style %}
+	
+	<style>
+		body {
+			background-color: aqua;
+		}
+		#form_login {
+			background-color:greenyellow;
+			width: 450px;
+			left: 50%;
+			top: 50%;
+			position: absolute;
+			transform: translate(-50%, -50%);
+		}
+	</style>
+
+{% endblock style %}
+
+
 {% block content %}
 
 <div class="container">
 	
-	<form action="{{ url_for('login') }}" method="post" style="max-width: 400px; margin: auto">
+	<form action="{{ url_for('login') }}" method="post" id="form_login">
 		{{ form.csrf_token }}
 		<!-- {{ form.hidden_tag() }} -->
-		<div class="border border-success p-4 mt-3">
+		<div class="border border-success border-3 p-4">
 			<div class="mb-3">
 				<h2>Sign In</h2>
 				<hr>
@@ -47,7 +66,8 @@ login
 					{{ form.password(class="form-control") }}
 				</div>
 			</div>
-			{{ form.submit(class="btn btn-primary col-12") }}
+			{{ form.submit(class="btn btn-primary col-12 mb-3") }}
+			<small>Don't have account? <span><a href="{{ url_for('register') }}">Register here</a></span></small>
 		</div>
 	</form>
 </div>
