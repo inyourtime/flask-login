@@ -8,38 +8,46 @@ login
 
 <div class="container">
 	
-	<form action="{{ url_for('login') }}" method="post">
+	<form action="{{ url_for('login') }}" method="post" style="max-width: 400px; margin: auto">
 		{{ form.csrf_token }}
-		{{ form.hidden_tag() }}
-		<div class="border border-success p-4 col-4 mt-3">
+		<!-- {{ form.hidden_tag() }} -->
+		<div class="border border-success p-4 mt-3">
 			<div class="mb-3">
 				<h2>Sign In</h2>
+				<hr>
 			</div>
-			{% with messages = get_flashed_messages() %}
-				{% if messages %}
-					{% for msg in messages %}
-					
-					<div class="alert alert-danger" role="alert">
-						{{ msg }}
-					</div>
-					
+			
+			{% with invalid_login = get_flashed_messages(category_filter=["invalid_login"]) %}
+				{% if invalid_login %}
+					{% for msg in invalid_login %}
+						<div class="alert alert-danger" role="alert">
+							{{ msg }}
+						</div>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+
+			{% with logout = get_flashed_messages(category_filter=["logout"]) %}
+				{% if logout %}
+					{% for msg in logout %}
+						<div class="alert alert-success" role="alert">
+							{{ msg }}
+						</div>
 					{% endfor %}
 				{% endif %}
 			{% endwith %}
 			
 			<div class="form-group w-100">
-				{{ form.username.label(class="form-label") }}
 				<div class="mb-3">
 					{{ form.username(class="form-control") }}
 				</div>
 			</div>
 			<div class="form-group w-100">
-				{{ form.password.label(class="form-label") }}
 				<div class="mb-3">
 					{{ form.password(class="form-control") }}
 				</div>
 			</div>
-			{{ form.submit(class="btn btn-primary") }}
+			{{ form.submit(class="btn btn-primary col-12") }}
 		</div>
 	</form>
 </div>
