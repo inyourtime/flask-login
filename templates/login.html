@@ -36,26 +36,23 @@ login
 				<hr>
 			</div>
 			
-			{% with invalid_login = get_flashed_messages(category_filter=["invalid_login"]) %}
-				{% if invalid_login %}
-					{% for msg in invalid_login %}
-						<div class="alert alert-danger" role="alert">
-							{{ msg }}
-						</div>
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					{% for category, message in messages %}
+						{% if category == 'invalid_login' %}
+							<div class="alert alert-danger" role="alert">
+								{{ message }}
+							</div>
+						{% endif %}
+						{% if category == 'logout' %}
+							<div class="alert alert-success" role="alert">
+								{{ message }}
+							</div>
+						{% endif %}
 					{% endfor %}
 				{% endif %}
 			{% endwith %}
 
-			{% with logout = get_flashed_messages(category_filter=["logout"]) %}
-				{% if logout %}
-					{% for msg in logout %}
-						<div class="alert alert-success" role="alert">
-							{{ msg }}
-						</div>
-					{% endfor %}
-				{% endif %}
-			{% endwith %}
-			
 			<div class="form-group w-100">
 				<div class="mb-3">
 					{{ form.username(class="form-control") }}
